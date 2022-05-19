@@ -1,22 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import Snippet from './components/Snippet';
+import Filter from './components/Filter';
+import Form from './components/Form';
 
-function App() {
+function App(props) {
+
+  console.log(props);
+  console.log('in From App')
+  const snippetList = props.snippets?.map(snippet => 
+    <Snippet 
+      category={snippet.category}
+      title={snippet.title}
+      name={snippet.name} 
+      id={snippet.id} 
+      completed={snippet.completed} />
+  );
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h2>Snippet</h2>
+
+        <Form />
+
+        <ul
+          aria-labelledby="list-heading">
+          {snippetList}
+        </ul>
+
+        <Filter />
       </header>
     </div>
   );
