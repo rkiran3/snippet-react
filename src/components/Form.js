@@ -1,51 +1,35 @@
 import React, { useState } from "react";
 
+const initialValues = {
+    category: "",
+    title: ""
+};
+
 export default function Form(props) {
-    console.log(`Begin Form function: props= ${props}`);
-    
-    //const [name, setName] = useState('Use Hooks!');
-    const [category, setCategory] = useState('Default Category');
-    const [title, setTitle] = useState('Default Title');
+    console.log(`Begin Form function: props= ${props}`);    
+    const [category, setCategory] = useState('');
+    const [title, setTitle] = useState('');
+    const [values, setValues] = useState( initialValues );
 
     // invoked on form submit below
     function handleSubmit(e) {
         
         e.preventDefault();
         console.log('Form Add button pressed');
-        console.log("Title: [" + e.target.title.value + "]");
-        console.log("Category: [" + e.target.category.value + "]");
-        props.addSnippet(category);
-        setCategory("");
+        props.addSnippet(values);
+        setValues(initialValues);
     }
 
-    function handleChangeCategory(e) {  
-        const target = e.target;
-        
-        console.log( "HC:name: " + target.name + "]") ;
-        console.log(e.target.value);
-        console.log(e.target.title.value);
-        setCategory(e.target.value);
+    const handleInputChange = (e) => {  
+        const {name, value} = e.target;
 
-    }
+        setValues({
+            ...values,
+            [name]:value
+        });
 
-    function handleInputChange(e) {  
-        const target = e.target;
-        const name = target.name;
-        const value = target.value;
-        
-        console.log( "HC:name: [" + target.name + "]") ;
-        console.log( "HC:value: [" + target.value + "]") ;
-        
-        if (name == 'category') {
-            setCategory(value);
-        } else {
-            setTitle(value);
-        }
-    }
-
-    function handleChangeTitle(e) {  
-        console.log(e.target.value);
-        setTitle(e.target.value);
+        console.log(values);        
+        console.log('exiting handleInputChange');
     }
 
     return (
@@ -62,30 +46,26 @@ export default function Form(props) {
                         <td><label>Category</label></td>
                         <td><input 
                             type="text" 
-                            value={category} 
+                            value={values.category} 
                             name="category" 
                             onChange={handleInputChange} /></td>
                     </tr>
-
                     <tr>
                         <td><label>Title</label></td>
                         <td><input 
                             type="text" 
-                            value={title}
+                            value={values.title}
                             name="title" 
                             onChange={handleInputChange} /></td>
                     </tr>
-
                     <tr>
                         <td><label>Comments</label></td>
                         <td><textarea id="commentId" name="comments" rows="5" cols="50" /></td>
                     </tr>
-
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                        <button type="submit" className="btn btn__primary btn__lg">
-                        Add</button>
+                        <input type="submit" className="btn btn__primary btn__lg" value="Add" />
                         </td>
                     </tr>
                 </tbody>

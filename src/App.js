@@ -23,13 +23,13 @@ function App(props) {
   }
 
   /* Function invoked when form submitted */
-  function addSnippet(category) {
+  function addSnippet(values) {
     console.log('App addTask was invoked');
-    console.log(category);
+    console.log(values);
 
     const newSnippet = { id: "id", 
-      category: category, 
-      title: "new Title",
+      category: values.category, 
+      title: values.title,
       completed: true
     }
 
