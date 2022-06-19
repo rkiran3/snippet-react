@@ -2,20 +2,19 @@ import React, { useState } from "react";
 
 const initialValues = {
     category: "",
-    title: ""
+    title: "",
+    content: ""
 };
 
 export default function Form(props) {
-    console.log(`Begin Form function: props= ${props}`);    
-    const [category, setCategory] = useState('');
-    const [title, setTitle] = useState('');
+    console.log(`Begin Form function: props= ${props}`);
     const [values, setValues] = useState( initialValues );
 
     // invoked on form submit below
     function handleSubmit(e) {
-        
         e.preventDefault();
         console.log('Form Add button pressed');
+        // call addSnippet method in App.js
         props.addSnippet(values);
         setValues(initialValues);
     }
@@ -27,9 +26,6 @@ export default function Form(props) {
             ...values,
             [name]:value
         });
-
-        console.log(values);        
-        console.log('exiting handleInputChange');
     }
 
     return (
@@ -59,8 +55,14 @@ export default function Form(props) {
                             onChange={handleInputChange} /></td>
                     </tr>
                     <tr>
-                        <td><label>Comments</label></td>
-                        <td><textarea id="commentId" name="comments" rows="5" cols="50" /></td>
+                        <td><label>Content</label></td>
+                        <td><textarea 
+                            id="commentId" 
+                            value={values.content}
+                            name="content" 
+                            onChange={handleInputChange}
+                            rows="5" 
+                            cols="50" /></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>

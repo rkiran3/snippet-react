@@ -6,19 +6,19 @@ import reportWebVitals from './reportWebVitals';
 
 const DATA = [
   { id: "todo-0", 
-    name: "Eating", 
     category: "Python", 
     title: "iterating lists",
+    content: "Eating Python",
     completed: true},
   { id: "todo-1", 
-    name: "Sleep", 
     category: "Java", 
     title: "Heap Memory",
+    content: "Sleeping Java",
     completed: false},
   { id: "todo-2", 
-    name: "Repeat", 
     category: "Emacs", 
     title: "Org Mode",
+    content: "Repeating Emacs",
     completed: false}
 ];
 

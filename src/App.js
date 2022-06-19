@@ -8,28 +8,20 @@ function App(props) {
 
   console.log("Begin App");
   const [snippets, setSnippets] = useState(props.snippets);
+  const [items, setItems] = useState(props.items);
 
-  function addTask(name) {
-    console.log('App addTask was invoked');
-    console.log(name);
+    
 
-    const newSnippet = { id: "id", 
-      name: name, 
-      title: "new Title",
-      completed: true
-    }
-
-    setSnippets([...snippets, newSnippet]);
-  }
-
-  /* Function invoked when form submitted */
+  /* Function invoked when form in Form.js submitted */
   function addSnippet(values) {
-    console.log('App addTask was invoked');
+    console.log('App addSnippet was invoked');
     console.log(values);
 
     const newSnippet = { id: "id", 
+      name: values.category,
       category: values.category, 
       title: values.title,
+      content: values.content,
       completed: true
     }
 
@@ -45,6 +37,7 @@ function App(props) {
       name={snippet.name}
       category={snippet.category} 
       id={snippet.id} 
+      content={snippet.content}
       completed={snippet.completed} 
       key={snippet.id} />
   );
@@ -56,9 +49,11 @@ function App(props) {
 
         <Form addSnippet={addSnippet} />
 
-        <ul
-          aria-labelledby="list-heading">
-          {snippetList}
+        <ul>
+          {snippetList.map(function(item, index) {
+            return <li key={ index }>{item}</li>
+          })
+          }
         </ul>
 
         <Filter />
