@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Snippet from './components/Snippet';
 import Filter from './components/Filter';
@@ -8,9 +8,18 @@ function App(props) {
 
   console.log("Begin App");
   const [snippets, setSnippets] = useState(props.snippets);
-  const [items, setItems] = useState(props.items);
 
-    
+  useEffect(() => {
+    fetch("http://localhost:8101/snippets/", {
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+      .then(response => response.json())
+      .then(dataList => {setSnippets(dataList)});
+  }, []);
 
   /* Function invoked when form in Form.js submitted */
   function addSnippet(values) {
@@ -28,8 +37,7 @@ function App(props) {
     setSnippets([...snippets, newSnippet]);
   }
 
-  console.log(props);
-  console.log('App.js: Iterating Snippets');
+  //console.log(props);
 
   const snippetList = snippets.map(snippet => 
     <Snippet     
