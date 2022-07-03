@@ -26,28 +26,35 @@ function App(props) {
     console.log('App addSnippet was invoked');
     console.log(values);
 
-    const newSnippet = { id: "id", 
-      name: values.category,
+    const newSnippet = {  
       category: values.category, 
       title: values.title,
       content: values.content,
-      completed: true
     }
 
     setSnippets([...snippets, newSnippet]);
+    saveSnippet(newSnippet);
   }
 
-  //console.log(props);
+  const saveSnippet = (snippet) => {
+    fetch("http://localhost:8101/snippets", {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json, text/plain, */*'
+      },
+      body: JSON.stringify(snippet),
+    });
+  }
 
   const snippetList = snippets.map(snippet => 
     <Snippet     
       title={snippet.title}
       name={snippet.name}
-      category={snippet.category} 
-      id={snippet.id} 
+      category={snippet.category}
       content={snippet.content}
-      completed={snippet.completed} 
-      key={snippet.id} />
+      completed={snippet.completed} />
   );
 
   return (
@@ -59,8 +66,8 @@ function App(props) {
 
         <ul>
           {snippetList.map(function(item, index) {
-            return <li key={ index }>{item}</li>
-          })
+              return <li key={index}>{item}</li>
+            })
           }
         </ul>
 
