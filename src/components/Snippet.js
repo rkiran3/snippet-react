@@ -4,6 +4,7 @@ export default function Snippet(props) {
     //console.log(props);
     return ( 
         <div className="c-cb">
+          
         <label className="todo-label" htmlFor={props.category} >
           {props.category}
         </label> |

@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 
-const initialValues = {
-    category: "",
-    title: "",
-    content: ""
-};
+// const finitialValues = {
+//     category: "",
+//     title: "",
+//     content: ""
+// };
 
 export default function Form(props) {
-    console.log(`Begin Form function: props= ${props}`);
-    const [values, setValues] = useState( initialValues );
+    const [values, setValues] = useState( props.values );
 
     // invoked on form submit below
     function handleSubmit(e) {
         e.preventDefault();
-        console.log('Form Add button pressed');
         // call addSnippet method in App.js
         props.addSnippet(values);
-        setValues(initialValues);
+        setValues(props.values);
     }
 
     const handleInputChange = (e) => {  
@@ -42,6 +40,7 @@ export default function Form(props) {
                         <td><label>Category</label></td>
                         <td><input 
                             type="text" 
+                            size="100"
                             value={values.category} 
                             name="category" 
                             onChange={handleInputChange} /></td>
@@ -50,6 +49,7 @@ export default function Form(props) {
                         <td><label>Title</label></td>
                         <td><input 
                             type="text" 
+                            size="100"
                             value={values.title}
                             name="title" 
                             onChange={handleInputChange} /></td>
@@ -61,8 +61,8 @@ export default function Form(props) {
                             value={values.content}
                             name="content" 
                             onChange={handleInputChange}
-                            rows="5" 
-                            cols="50" /></td>
+                            rows="10" 
+                            cols="100" /></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>

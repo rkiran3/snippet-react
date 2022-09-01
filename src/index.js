@@ -5,26 +5,32 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const DATA = [
-  { id: "todo-0", 
+  { id: "0", 
     category: "Python", 
     title: "iterating lists",
     content: "Eating Python",
     completed: true},
-  { id: "todo-1", 
+  { id: "1", 
     category: "Java", 
     title: "Heap Memory",
     content: "Sleeping Java",
     completed: false},
-  { id: "todo-2", 
+  { id: "2", 
     category: "Emacs", 
     title: "Org Mode",
     content: "Repeating Emacs",
     completed: false}
 ];
 
+const values = {
+  category: "",
+  title: "",
+  content: ""
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(  
-    <App snippets={DATA} />
+    <App snippets={DATA} values={values} />
 );
 
 // If you want to start measuring performance in your app, pass a function
