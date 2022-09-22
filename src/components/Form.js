@@ -1,30 +1,6 @@
 import React, { useState } from "react";
 
-// const finitialValues = {
-//     category: "",
-//     title: "",
-//     content: ""
-// };
-
-export default function Form(props) {
-    const [values, setValues] = useState( props.values );
-
-    // invoked on form submit below
-    function handleSubmit(e) {
-        e.preventDefault();
-        // call addSnippet method in App.js
-        props.addSnippet(values);
-        setValues(props.values);
-    }
-
-    const handleInputChange = (e) => {  
-        const {name, value} = e.target;
-
-        setValues({
-            ...values,
-            [name]:value
-        });
-    }
+export default function Form({values, handleSubmit, handleChange, handleClear}) {
 
     return (
         <form onSubmit={handleSubmit}>
@@ -36,6 +12,15 @@ export default function Form(props) {
                     </tr>
                 </thead>
                 <tbody>
+                <tr>
+                    <td></td>
+                    <td><input 
+                        type="hidden" 
+                        readOnly={true}
+                        value={values.id} 
+                        name="id" 
+                        onChange={handleChange} /></td>
+                    </tr>
                     <tr>
                         <td><label>Category</label></td>
                         <td><input 
@@ -43,7 +28,7 @@ export default function Form(props) {
                             size="100"
                             value={values.category} 
                             name="category" 
-                            onChange={handleInputChange} /></td>
+                            onChange={handleChange} /></td>
                     </tr>
                     <tr>
                         <td><label>Title</label></td>
@@ -52,7 +37,7 @@ export default function Form(props) {
                             size="100"
                             value={values.title}
                             name="title" 
-                            onChange={handleInputChange} /></td>
+                            onChange={handleChange} /></td>
                     </tr>
                     <tr>
                         <td><label>Content</label></td>
@@ -60,7 +45,7 @@ export default function Form(props) {
                             id="commentId" 
                             value={values.content}
                             name="content" 
-                            onChange={handleInputChange}
+                            onChange={handleChange}
                             rows="10" 
                             cols="100" /></td>
                     </tr>
@@ -68,6 +53,7 @@ export default function Form(props) {
                         <td>&nbsp;</td>
                         <td>
                         <input type="submit" className="btn btn__primary btn__lg" value="Add" />
+                        <button value="clear" onClick={handleClear} >Clear</button>
                         </td>
                     </tr>
                 </tbody>

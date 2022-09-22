@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import Snippet from './components/Snippet';
 import Filter from './components/Filter';
 import Form from './components/Form';
-//import ReactTable from "react-table"
 
+const initialState = {
+  id: '',
+  category: '',
+  title: '',
+  content: ''
+}
 function App(props) {
-  const [snippets, setSnippets] = useState(props.snippets);
-  const [values, setValues] = useState(props.values);
-  //const [editValues, setEditValues] = {};
+  const [list, setList] = useState(props.snippets);
+  const [values, setValues] = useState(initialState);
 
   useEffect(() => {
     fetch("http://localhost:8101/snippets/", {
@@ -19,40 +23,112 @@ function App(props) {
           }
         })
       .then(response => response.json())
-      .then(dataList => {setSnippets(dataList)});
+      .then(dataList => {setList(dataList)});
   }, []);
+
+  // invoked on form submit
+  function handleSubmit(event) {
+      event.preventDefault();
+      const f = event.target;
+      const itemId = parseInt(f.id.value);
+      var found = list.find(function(item) {
+          return item.id === itemId;
+        });
+      if (found === undefined) {
+        const newItem = {
+          category: event.target.category.value,
+          title: event.target.title.value,
+          content: event.target.content.value,
+          id: list.length
+        }
+        const newList = list.concat(newItem);
+        setList(newList);
+
+        const newSnippet = {  
+          id: list.length ,
+          category: values.category, 
+          title: values.title,
+          content: values.content,
+          crtdt: new Date()
+        }
+        saveSnippet(newSnippet);
+      } else {
+        const newList = list.map((item) => {
+          if (item.id === itemId) {
+            const updatedItem = {
+              ...item,
+              id: itemId,
+              category: event.target.category.value,
+              title: event.target.title.value,
+              content: event.target.content.value,
+            };
+            return updatedItem;
+          }
+          return item;
+        });
+        setList(newList);
+      }
+      setValues(initialState);
+  }
+
+  function handleClear(event) {
+    event.preventDefault();
+    setValues(initialState);  
+  }
+
+  function handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    setValues( item => ({
+      ...item,
+      [name]: value
+      })
+    );
+  }
 
   /* Function invoked when form in Form.js submitted */
   function addSnippet(values) {
-
-    console.log(snippets.length);
     const newSnippet = {  
-      id: snippets.length ,
+      id: list.length ,
       category: values.category, 
       title: values.title,
       content: values.content,
       crtdt: new Date()
     }
 
-    setSnippets([...snippets, newSnippet]);
+    setList([...list, newSnippet]);
     saveSnippet(newSnippet);
   }
 
-  /* Function invoked when form in Form.js submitted */
-  function editSnippet(values) {
-    console.log('editSnippet was invoked');
-    console.log(values);
-    console.log(this);
-    //setValues(values);
-    console.log("completed");
+  /* Function invoked when edit button clicked in  Form */
+  function handleEdit(id) {
+
+    var myItem = list.find(function(item) { 
+      return item.id === id; 
+    });
+    const newValue = {
+        id: myItem.id,
+        category: myItem.category,
+        title: myItem.title,
+        content: myItem.content
+    };
+
+    setValues(values => ({
+      ...values,
+      id: newValue.id,
+      category: newValue.category,
+      title: newValue.title,
+      content: newValue.content
+    }));
+    console.log("exiting editSnippet");
   }
 
   /* Delete Snippet Function */
-  function deleteSnippet(values) {
-    console.log('deleteSnippet ' + values.id);
-    console.log(values);
+  function deleteSnippet(id) {
+    console.log('deleteSnippet ' + id);
 
-    fetch("http://localhost:8101/snippets/" + values.id, {
+    fetch("http://localhost:8101/snippets/" + id, {
       method: 'DELETE',
       mode: 'cors',
       headers: {
@@ -60,6 +136,10 @@ function App(props) {
         'Accept': 'application/json, text/plain, */*'
       },
     });
+
+    const newList = list.filter((item) => item.id !== id);
+    setList(newList);
+    setValues(initialState);
   }
 
   const saveSnippet = (snippet) => {
@@ -72,31 +152,18 @@ function App(props) {
       },
       body: JSON.stringify(snippet),
     });
-  }
-
-  console.log(snippets);
-  const snippetList = snippets.map(snippet => 
-    <Snippet     
-      id={snippet.id}
-      title={snippet.title}
-      category={snippet.category}
-      content={snippet.content}
-    />
-  );
+  } 
 
   return (
     <div className="App">
       <header className="App-header">
         <h2>Snippet</h2>
-
-        <Form addSnippet={addSnippet} values={values}/>
-
-        <ul>
-          {/* snippetList.map(function(item, index) {
-              return <li key={index}>{item}</li>
-            })
-          */}
-        </ul>
+        {  }
+        <Form 
+          values={values} 
+          handleSubmit={handleSubmit} 
+          handleChange={handleChange} 
+          handleClear={handleClear} />
 
         <div>
           <table border='1' width="1000">
@@ -111,17 +178,17 @@ function App(props) {
               </tr>
             </thead>
             <tbody>
-            {snippetList.map((val, key) => {
+            {list.map((item) => {
               return (
-                <tr key={key}>
-                    <td>{val.props.id}</td>
-                    <td>{val.props.category}</td>
-                    <td>{val.props.title}</td>
-                    <td>{val.props.content}</td>
+                <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.category}</td>
+                    <td>{item.title}</td>
+                    <td>{item.content}</td>
                     <td><button type="button" name="edit" 
-                      onClick={() => editSnippet(val.props)}>edit</button></td>
+                      onClick={() => handleEdit(item.id)}>edit</button></td>
                     <td><button type="button" name="delete" 
-                      onClick={() => this.deleteSnippet(val.props)}>delete</button></td>
+                      onClick={() => deleteSnippet(item.id)}>delete</button></td>
                 </tr>
                 )
             })}

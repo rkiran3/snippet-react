@@ -5,17 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const DATA = [
-  { id: "0", 
+  { id: 0, 
     category: "Python", 
     title: "iterating lists",
     content: "Eating Python",
     completed: true},
-  { id: "1", 
+  { id: 1, 
     category: "Java", 
     title: "Heap Memory",
     content: "Sleeping Java",
     completed: false},
-  { id: "2", 
+  { id: 2, 
     category: "Emacs", 
     title: "Org Mode",
     content: "Repeating Emacs",
