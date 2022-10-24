@@ -1,16 +1,17 @@
 import React from 'react';
 
-export default function Filter() {
+export default function Filter({filter, handleFilter}) {
 
     return (
- 
-        <div className="c-cb">
-            <button type="button" className="btn toggle-btn" aria-pressed="true">
-                <span className="visually-hidden">Show </span>
-                <span>all</span>
-                <span className="visually-hidden"> snippets</span>
-            </button>
-      </div>
+        <span className="c-cb">
+            Filter <input 
+                id="filter"
+                name="filter"
+                type="text" 
+                value={filter}
+                onChange={handleFilter} >
+            </input>
+      </span>
     )
 
 }

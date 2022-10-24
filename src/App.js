@@ -12,7 +12,9 @@ const initialState = {
 }
 function App(props) {
   const [list, setList] = useState(props.snippets);
+  const [mstrList, setMstrList] = useState(list);
   const [values, setValues] = useState(initialState);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     fetch("http://localhost:8101/snippets/", {
@@ -25,6 +27,22 @@ function App(props) {
       .then(response => response.json())
       .then(dataList => {setList(dataList)});
   }, []);
+
+  // invoked on form submit
+  function handleFilter(event) {
+    event.preventDefault();
+    setFilter(event.target.value);
+    if (event.target.value !== '') {
+      const newList = list.filter((item) => {
+        if (item.category.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1){
+          return item;
+        }
+      })
+      setList(newList);
+    } else {
+      setList(mstrList);
+    }
+  }
 
   // invoked on form submit
   function handleSubmit(event) {
@@ -49,7 +67,8 @@ function App(props) {
           category: values.category, 
           title: values.title,
           content: values.content,
-          crtdt: new Date()
+          crtdt: new Date(),
+          lstmoddt: new Date()
         }
         saveSnippet(newSnippet);
       } else {
@@ -61,7 +80,9 @@ function App(props) {
               category: event.target.category.value,
               title: event.target.title.value,
               content: event.target.content.value,
+              lstmoddt: new Date()
             };
+            saveSnippet(updatedItem);
             return updatedItem;
           }
           return item;
@@ -159,11 +180,18 @@ function App(props) {
       <header className="App-header">
         <h2>Snippet</h2>
         {  }
+        <span><Filter filter={filter} handleFilter={handleFilter} /></span>
+
         <Form 
           values={values} 
           handleSubmit={handleSubmit} 
           handleChange={handleChange} 
           handleClear={handleClear} />
+
+        <input 
+          type="button" 
+          onClick={() => {setFilter(''); setValues(initialState); setList(mstrList) }} 
+          value="Show All Snippets" />
 
         <div>
           <table border='1' width="1000">
@@ -195,7 +223,6 @@ function App(props) {
             </tbody>
           </table>
         </div>
-        <Filter />
       </header>
     </div>
   );
