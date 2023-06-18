@@ -17,16 +17,22 @@ function App(props) {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    fetch("http://localhost:8101/snippets/", {
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        })
-      .then(response => response.json())
-      .then(dataList => {setList(dataList)});
+    loadAll()  
   }, []);
+
+  // load all Snippet entries 
+  function loadAll() {
+    fetch("http://localhost:8101/snippets/", {
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+  .then(response => response.json())
+  .then(dataList => {setList(dataList)});
+
+  }
 
   // invoked on form submit
   function handleFilter(event) {
@@ -34,13 +40,16 @@ function App(props) {
     setFilter(event.target.value);
     if (event.target.value !== '') {
       const newList = list.filter((item) => {
-        if (item.category.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1){
+        if ((item.category.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1)
+        || (item.title.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) 
+        || (item.content.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1)){
           return item;
         }
       })
       setList(newList);
     } else {
-      setList(mstrList);
+      // setList(mstrList);
+      loadAll();
     }
   }
 
@@ -190,7 +199,7 @@ function App(props) {
 
         <input 
           type="button" 
-          onClick={() => {setFilter(''); setValues(initialState); setList(mstrList) }} 
+          onClick={() => {setFilter(''); setValues(initialState); loadAll() }} 
           value="Show All Snippets" />
 
         <div>

@@ -9,7 +9,7 @@ export default function Filter({filter, handleFilter}) {
                 name="filter"
                 type="text" 
                 value={filter}
-                onChange={handleFilter} >
+                onChange={handleFilter} style={{color: "red", marginLeft: "32px" }} >
             </input>
       </span>
     )
