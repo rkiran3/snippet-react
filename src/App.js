@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 
-import Snippet from './components/Snippet';
 import Filter from './components/Filter';
 import Form from './components/Form';
 
 const initialState = {
   id: '',
-  category: '',
-  title: '',
+  category: 'Productivity',
+  title: 'Advice',
   content: ''
 }
+
+
 function App(props) {
   const [list, setList] = useState(props.snippets);
   const [mstrList, setMstrList] = useState(list);
   const [values, setValues] = useState(initialState);
   const [filter, setFilter] = useState('');
+  const [category, setCategory] = useState('');
+
+  // create downdown options
+const options = [
+    {label: 'Productivity', value: 'Productivity'},
+    {label: 'Java',         value: 'Java'},
+];
 
   useEffect(() => {
     loadAll()  
@@ -22,7 +30,7 @@ function App(props) {
 
   // load all Snippet entries 
   function loadAll() {
-    fetch("http://localhost:8101/snippets/", {
+    fetch("http://172.18.0.2:8101/snippets/", {
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
@@ -158,7 +166,7 @@ function App(props) {
   function deleteSnippet(id) {
     console.log('deleteSnippet ' + id);
 
-    fetch("http://localhost:8101/snippets/" + id, {
+    fetch("http://172.18.0.2:8101/snippets/" + id, {
       method: 'DELETE',
       mode: 'cors',
       headers: {
@@ -173,7 +181,7 @@ function App(props) {
   }
 
   const saveSnippet = (snippet) => {
-    fetch("http://localhost:8101/snippets", {
+    fetch("http://172.18.0.2:8101/snippets", {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -188,11 +196,11 @@ function App(props) {
     <div className="App">
       <header className="App-header">
         <h2>Snippet</h2>
-        {  }
+        { }
         <span><Filter filter={filter} handleFilter={handleFilter} /></span>
-
         <Form 
           values={values} 
+          options={options} 
           handleSubmit={handleSubmit} 
           handleChange={handleChange} 
           handleClear={handleClear} />

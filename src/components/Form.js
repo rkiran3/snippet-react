@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
-export default function Form({values, handleSubmit, handleChange, handleClear}) {
+import Dropdown from './Dropdown';
+
+export default function Form({values, options, handleSubmit, handleChange, handleClear}) {
 
     return (
         <form onSubmit={handleSubmit}>
@@ -23,12 +25,9 @@ export default function Form({values, handleSubmit, handleChange, handleClear}) 
                     </tr>
                     <tr>
                         <td><label>Category</label></td>
-                        <td><input 
-                            type="text" 
-                            size="100"
-                            value={values.category} 
-                            name="category" 
-                            onChange={handleChange} /></td>
+                        <td>
+                            <Dropdown label="Dropdown" options={options} onChange={handleChange} ></Dropdown> 
+                        </td>
                     </tr>
                     <tr>
                         <td><label>Title</label></td>
