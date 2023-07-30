@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  snippet-dev:
+    container_name: snippet-dev
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "9001:3000"
+    restart: unless-stopped
+
