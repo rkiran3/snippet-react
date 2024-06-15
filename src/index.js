@@ -8,17 +8,17 @@ const DATA = [
   { id: 0, 
     category: "Python", 
     title: "iterating lists",
-    content: "Eating Python",
+    content: "Python is great",
     completed: true},
   { id: 1, 
     category: "Java", 
     title: "Heap Memory",
-    content: "Sleeping Java",
+    content: "Java Memory",
     completed: false},
   { id: 2, 
     category: "Emacs", 
     title: "Org Mode",
-    content: "Repeating Emacs",
+    content: "Learning Org mode in Emacs",
     completed: false}
 ];
 

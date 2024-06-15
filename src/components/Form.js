@@ -26,7 +26,7 @@ export default function Form({values, options, handleSubmit, handleChange, handl
                     <tr>
                         <td><label>Category</label></td>
                         <td>
-                            <Dropdown label="Dropdown" options={options} onChange={handleChange} ></Dropdown> 
+                            <Dropdown label="Dropdown" options={options} handleChange={handleChange} ></Dropdown> 
                         </td>
                     </tr>
                     <tr>

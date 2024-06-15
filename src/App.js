@@ -22,6 +22,8 @@ function App(props) {
 const options = [
     {label: 'Productivity', value: 'Productivity'},
     {label: 'Java',         value: 'Java'},
+    {label: 'Python',       value: 'Python'},
+    {label: 'Technical',    value: 'Technical'},
 ];
 
   useEffect(() => {
