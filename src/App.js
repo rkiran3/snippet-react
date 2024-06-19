@@ -18,7 +18,7 @@ function App(props) {
   const [filter, setFilter] = useState('');
   const [category, setCategory] = useState('');
 
-  // create downdown options
+  // create downdown options with topics
 const options = [
     {label: 'Productivity', value: 'Productivity'},
     {label: 'Java',         value: 'Java'},
@@ -26,6 +26,7 @@ const options = [
     {label: 'Technical',    value: 'Technical'},
 ];
 
+  // load initial snippets from calling Server running postgreSQL
   useEffect(() => {
     loadAll()  
   }, []);
@@ -44,7 +45,7 @@ const options = [
 
   }
 
-  // invoked on form submit
+  // invoked on searching for keywords in content, title or category.
   function handleFilter(event) {
     event.preventDefault();
     setFilter(event.target.value);
